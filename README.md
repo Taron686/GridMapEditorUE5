@@ -1,14 +1,13 @@
-** Changes the code so that it will compile **
-
-Mayde some changes that the code will compile and will start with UE5.6
-*Fair Warning:  This is a C++ plugin for UE5.6*
-
-
-** Original Comment: DROPPING SUPPORT FOR THIS BECAUSE UE5'S MODELLING TOOLS ARE MUCH BETTER **
-
 # Grid Map Editor
+## Changes the code so that it will compile 
 
-*Fair Warning:  This is a C++ plugin for UE4*
+Made some changes that the code will compile and will start with UE5.6
+* Fair Warning:  This is a C++ plugin for UE5.6
+
+
+## Original Comment:
+### DROPPING SUPPORT FOR THIS BECAUSE UE5'S MODELLING TOOLS ARE MUCH BETTER
+* Fair Warning:  This is a C++ plugin for UE4
 
 This is still very work in progress, but feel free to check it out.
 
