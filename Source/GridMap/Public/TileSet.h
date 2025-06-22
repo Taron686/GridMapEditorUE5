@@ -14,8 +14,8 @@ struct GRIDMAP_API FGridMapTileBitset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
-	uint32 Bitset = 0;
+       UPROPERTY(EditAnywhere, Category="Tile")
+       uint32 Bitset = 0;
 };
 
 USTRUCT()
@@ -24,14 +24,14 @@ struct GRIDMAP_API FGridMapTileList
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
-	FGridMapTileBitset TileAdjacency;
+       UPROPERTY(EditAnywhere, Category="Tile")
+       FGridMapTileBitset TileAdjacency;
 
-	UPROPERTY(EditAnywhere)
-	FRotator Rotation = FRotator::ZeroRotator;
+       UPROPERTY(EditAnywhere, Category="Tile")
+       FRotator Rotation = FRotator::ZeroRotator;
 
-	UPROPERTY(EditAnywhere, meta = (AllowAbstract))
-	TArray<TSoftObjectPtr<class UStaticMesh>> Tiles;
+       UPROPERTY(EditAnywhere, Category="Tile", meta = (AllowAbstract))
+       TArray<TSoftObjectPtr<class UStaticMesh>> Tiles;
 
 	TSoftObjectPtr<class UStaticMesh> GetRandomTile() const;
 };
