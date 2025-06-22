@@ -90,8 +90,8 @@ private:
 	bool bBrushTraceValid;
 	FVector BrushLocation;
 	FVector BrushTraceDirection;
-	TWeakObjectPtr<class AActor> BrushTraceHitActor;
-	UStaticMeshComponent* TileBrushComponent;
+       TWeakObjectPtr<class AActor> BrushTraceHitActor;
+       TObjectPtr<UStaticMeshComponent> TileBrushComponent;
 	/** The dynamic material of the tile brush. */
 	class UMaterialInstanceDynamic* BrushMID;
 	FColor BrushDefaultHighlightColor;
