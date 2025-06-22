@@ -3,6 +3,7 @@
 #include "GridMapEditorMode.h"
 #include "TileSet.h"
 #include "Widgets/STileSetPalette.h"
+#include "Styling/AppStyle.h"
 
 FTileSetPaletteItemModel::FTileSetPaletteItemModel(UGridMapTileSet* InTileSet, TSharedRef<STileSetPalette> InTileSetPalette, FGridMapEditorMode* InEditorMode)
 	: TileSet(InTileSet)
@@ -21,13 +22,13 @@ void STileSetItemTile::Construct(const FArguments& InArgs, TSharedRef<STableView
 	FAssetThumbnailConfig ThumbnailConfig;
 	STableRow<UGridMapTileSet*>::Construct(
 		STableRow<UGridMapTileSet*>::FArguments()
-		.Style(FEditorStyle::Get(), "ContentBrowser.AssetListView.TableRow")
+                .Style(FAppStyle::Get(), "ContentBrowser.AssetListView.TableRow")
 		.Padding(1.f)
 		.Content()
 		[
 			SNew(SBorder)
 			.Padding(4.f)
-			.BorderImage(FEditorStyle::GetBrush("ContentBrowser.ThumbnailShadow"))
+                        .BorderImage(FAppStyle::GetBrush("ContentBrowser.ThumbnailShadow"))
 			.ForegroundColor(FLinearColor::White)
 			//.ColorAndOpacity(this, &SFoliagePaletteItemTile::GetTileColorAndOpacity)
 			[

@@ -11,6 +11,7 @@
 #include "Widgets/Layout/SConstraintCanvas.h"
 #include "Widgets/Layout/SUniformGridPanel.h"
 #include "Widgets/Text/STextBlock.h"
+#include "Styling/AppStyle.h"
 
 
 
@@ -28,7 +29,7 @@ public:
 		ChildSlot
 		[
 			SNew(SButton)
-			.ButtonStyle(FEditorStyle::Get(), "SimpleSharpButton")
+                        .ButtonStyle(FAppStyle::Get(), "SimpleSharpButton")
 			.ButtonColorAndOpacity(FLinearColor(FColor(40, 40, 40)))
 			.OnClicked(this, &SGridTilePreviewWidget::OnTileClicked, StructPropertyHandle, bit)
 			.ContentPadding(FMargin(2.0f, 2.0f))
@@ -39,7 +40,7 @@ public:
 				.AutoHeight()
 				[
 					SNew(SBorder)
-					.BorderImage(FEditorStyle::GetBrush("UMGEditor.AnchorGrid"))
+                                        .BorderImage(FAppStyle::GetBrush("UMGEditor.AnchorGrid"))
 					.Padding(0)
 					[
 						SNew(SBox)
@@ -64,7 +65,7 @@ public:
 									[
 										SNew(SImage)
 										.Visibility(this, &SGridTilePreviewWidget::GetVisibility_Tile, StructPropertyHandle, bit)
-										.Image(FEditorStyle::Get().GetBrush("UMGEditor.AnchoredWidget"))
+                                                                               .Image(FAppStyle::Get().GetBrush("UMGEditor.AnchoredWidget"))
 									]
 								]
 							]
@@ -151,7 +152,7 @@ void FTileBitsetCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> Struc
 		.ValueContent()
 		[
 			SNew(SBorder)
-			.BorderImage(FEditorStyle::GetBrush("WhiteBrush"))
+                        .BorderImage(FAppStyle::GetBrush("WhiteBrush"))
 			.BorderBackgroundColor(FLinearColor(FColor(66, 139, 202)))
 			.Padding(0)
 			[

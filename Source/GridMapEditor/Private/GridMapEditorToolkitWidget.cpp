@@ -1,7 +1,7 @@
 #include "GridMapEditorToolkitWidget.h"
 #include "Editor.h"
 #include "EditorModeManager.h"
-#include "EditorStyleSet.h"
+#include "Styling/AppStyle.h"
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 #include "GridMapEditCommands.h"
 #include "GridMapEditorMode.h"
@@ -58,7 +58,7 @@ void SGridMapEditorToolkitWidget::Construct(const FArguments& InArgs)
 				.Padding(0.f, 2.f, 2.f, 0.f)
 				[
 					SNew(SBorder)
-					.BorderImage(FEditorStyle::GetBrush("ToolPanel.DarkGroupBorder"))
+                                        .BorderImage(FAppStyle::GetBrush("ToolPanel.DarkGroupBorder"))
 					.Padding(FGridMapStyleSet::StandardPadding)
 					[
 						SNew(SVerticalBox)
@@ -74,7 +74,7 @@ void SGridMapEditorToolkitWidget::Construct(const FArguments& InArgs)
 							[
 								SNew(STextBlock)
 								.Text(this, &SGridMapEditorToolkitWidget::GetActiveToolName)
-								.TextStyle(FEditorStyle::Get(), "FoliageEditMode.ActiveToolName.Text")
+                                                                .TextStyle(FAppStyle::Get(), "FoliageEditMode.ActiveToolName.Text")
 							]
 						]
 						
@@ -114,7 +114,7 @@ TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildToolBar()
 {
 	FVerticalToolBarBuilder Toolbar(GridMapEditorMode->UICommandList, FMultiBoxCustomization::None);
 	Toolbar.SetLabelVisibility(EVisibility::Collapsed);
-	Toolbar.SetStyle(&FEditorStyle::Get(), "FoliageEditToolbar");
+        Toolbar.SetStyle(&FAppStyle::Get(), "FoliageEditToolbar");
 	{
 		Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetPaintTiles);
 		Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetSelectTiles);
@@ -137,7 +137,7 @@ TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildToolBar()
 				SNew(SBorder)
 				.HAlign(HAlign_Center)
 				.Padding(0)
-				.BorderImage(FEditorStyle::GetBrush("NoBorder"))
+                                .BorderImage(FAppStyle::GetBrush("NoBorder"))
 				.IsEnabled(FSlateApplication::Get().GetNormalExecutionAttribute())
 				[
 					Toolbar.MakeWidget()
@@ -245,9 +245,8 @@ TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildPaintOptions()
 			.VAlign(VAlign_Center)
 			.Padding(FGridMapStyleSet::StandardPadding)
 			[
-				SNew(SWrapBox)
-				.UseAllottedWidth(true)
-				.InnerSlotPadding({6, 5})
+                                SNew(SWrapBox)
+                                .InnerSlotPadding({6, 5})
 
 				+ SWrapBox::Slot()
 				[

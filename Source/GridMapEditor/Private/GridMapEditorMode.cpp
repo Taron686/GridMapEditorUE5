@@ -72,28 +72,28 @@ void FGridMapEditorMode::BindCommandList()
 		Commands.SetPaintTiles,
 		FExecuteAction::CreateRaw(this, &FGridMapEditorMode::OnSetPaintTiles),
 		FCanExecuteAction(),
-		FIsActionChecked::CreateLambda([=]
-		{
-			return UISettings.GetPaintToolSelected();
-		}));
+                FIsActionChecked::CreateLambda([this]()
+                {
+                        return UISettings.GetPaintToolSelected();
+                }));
 
 	UICommandList->MapAction(
 		Commands.SetSelectTiles,
 		FExecuteAction::CreateRaw(this, &FGridMapEditorMode::OnSetSelectTiles),
 		FCanExecuteAction(),
-		FIsActionChecked::CreateLambda([=]
-		{
-			return UISettings.GetSelectToolSelected();
-		}));
+                FIsActionChecked::CreateLambda([this]()
+                {
+                        return UISettings.GetSelectToolSelected();
+                }));
 
 	UICommandList->MapAction(
 		Commands.SetTileSettings,
 		FExecuteAction::CreateRaw(this, &FGridMapEditorMode::OnSetTileSettings),
 		FCanExecuteAction(),
-		FIsActionChecked::CreateLambda([=]
-		{
-			return UISettings.GetSettingsToolSelected();
-		}));
+                FIsActionChecked::CreateLambda([this]()
+                {
+                        return UISettings.GetSettingsToolSelected();
+                }));
 }
 
 void FGridMapEditorMode::Enter()

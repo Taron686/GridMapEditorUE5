@@ -73,9 +73,8 @@ void SGridMapEditorSettingsWidget::Construct(const FArguments& InArgs, FGridMapE
 			.VAlign(VAlign_Center)
 			.Padding(FGridMapStyleSet::StandardPadding)
 			[
-				SNew(SWrapBox)
-				.UseAllottedWidth(true)
-				.InnerSlotPadding({6, 5})
+                                SNew(SWrapBox)
+                                .InnerSlotPadding({6, 5})
 
 				+ SWrapBox::Slot()
 				[

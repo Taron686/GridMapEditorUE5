@@ -1,5 +1,5 @@
 #include "GridMapStyleSet.h"
-#include "EditorStyleSet.h"
+#include "Styling/AppStyle.h"
 
 const FName FGridMapStyleSet::Name("GridMapStyle");
 
@@ -14,7 +14,7 @@ const FMargin FGridMapStyleSet::StandardPadding(6.f, 3.f);
 const FMargin FGridMapStyleSet::StandardLeftPadding(6.f, 3.f, 3.f, 3.f);
 const FMargin FGridMapStyleSet::StandardRightPadding(3.f, 3.f, 6.f, 3.f);
 
-const FSlateFontInfo FGridMapStyleSet::StandardFont = FEditorStyle::GetFontStyle(TEXT("PropertyWindow.NormalFont"));
+const FSlateFontInfo FGridMapStyleSet::StandardFont = FAppStyle::GetFontStyle(TEXT("PropertyWindow.NormalFont"));
 
 FGridMapStyleSet::FGridMapStyleSet(const FString& PluginContentDir)
 	: Super(Name)

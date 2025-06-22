@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GridMapEditorTypes.h"
+#include "TileSet.h"
 
 struct FGridMapEditorUISettings
 {

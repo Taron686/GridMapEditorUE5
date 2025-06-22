@@ -4,6 +4,7 @@
 #include "Styling/SlateTypes.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/Views/STableRow.h"
+#include "TileSet.h"
 
 class UGridMapTileSet;
 class STileSetPalette;
