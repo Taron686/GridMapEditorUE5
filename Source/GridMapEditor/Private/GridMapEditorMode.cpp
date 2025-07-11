@@ -293,9 +293,20 @@ void FGridMapEditorMode::PaintTile()
 			// Rename the display name of the new actor in the editor to reflect the mesh that is being created from.
 			FActorLabelUtilities::SetActorLabelUnique(MeshActor, CreateActorLabel(TileSet));
 
-			UStaticMesh* StaticMesh = Cast<UStaticMesh>(StaticMeshAsset.LoadSynchronous());
-			MeshActor->GetStaticMeshComponent()->SetStaticMesh(StaticMesh);
-			MeshActor->ReregisterAllComponents();
+                       UStaticMesh* StaticMesh = Cast<UStaticMesh>(StaticMeshAsset.LoadSynchronous());
+                       MeshActor->GetStaticMeshComponent()->SetStaticMesh(StaticMesh);
+                       MeshActor->ReregisterAllComponents();
+
+                       UMaterialInterface* BaseMaterial = MeshActor->GetStaticMeshComponent()->GetMaterial(0);
+                       if (BaseMaterial && TileList->Custom.Num() > 0)
+                       {
+                               UMaterialInstanceDynamic* DynMat = UMaterialInstanceDynamic::Create(BaseMaterial, MeshActor);
+                               for (const FGridMapMaterialParameter& Param : TileList->Custom)
+                               {
+                                       DynMat->SetScalarParameterValue(Param.ParameterName, Param.ScalarValue);
+                               }
+                               MeshActor->GetStaticMeshComponent()->SetMaterial(0, DynMat);
+                       }
 
 			FTransform BrushTransform = FTransform(TileList->Rotation.Quaternion(), BrushLocation, FVector::OneVector);
 			MeshActor->SetActorTransform(BrushTransform);
@@ -573,10 +584,22 @@ void FGridMapEditorMode::UpdateAdjacentTiles(UWorld* World, const TArray<FAdjace
 			DrawDebugPoint(GetWorld(), CurrentActor->GetActorLocation(), 10.f, FColor::Yellow, false, 5.0f, 255);
 		}
 
-		// it has changed, so let's update it
-		CurrentActor->GetStaticMeshComponent()->SetStaticMesh(ExpectedStaticMesh);
-		CurrentActor->SetActorRotation(TileList->Rotation);
-		ProcessedActors.Add(CurrentActor);
+               // it has changed, so let's update it
+               CurrentActor->GetStaticMeshComponent()->SetStaticMesh(ExpectedStaticMesh);
+               {
+                       UMaterialInterface* BaseMaterial = CurrentActor->GetStaticMeshComponent()->GetMaterial(0);
+                       if (BaseMaterial && TileList->Custom.Num() > 0)
+                       {
+                               UMaterialInstanceDynamic* DynMat = UMaterialInstanceDynamic::Create(BaseMaterial, CurrentActor);
+                               for (const FGridMapMaterialParameter& Param : TileList->Custom)
+                               {
+                                       DynMat->SetScalarParameterValue(Param.ParameterName, Param.ScalarValue);
+                               }
+                               CurrentActor->GetStaticMeshComponent()->SetMaterial(0, DynMat);
+                       }
+               }
+               CurrentActor->SetActorRotation(TileList->Rotation);
+               ProcessedActors.Add(CurrentActor);
 
 		// find any neighbors that haven't been updated, and queue them for an update
 		if (GetAdjacentTiles(World, CurrentActor->GetActorLocation(), AdjacentTiles))
