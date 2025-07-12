@@ -298,14 +298,30 @@ void FGridMapEditorMode::PaintTile()
                        MeshActor->ReregisterAllComponents();
 
                        UMaterialInterface* BaseMaterial = MeshActor->GetStaticMeshComponent()->GetMaterial(0);
+                       UStaticMeshComponent* MeshComp = MeshActor->GetStaticMeshComponent();
                        if (BaseMaterial && TileList->Custom.Num() > 0)
                        {
                                UMaterialInstanceDynamic* DynMat = UMaterialInstanceDynamic::Create(BaseMaterial, MeshActor);
+                               int32 CPDIndex = 0;
                                for (const FGridMapMaterialParameter& Param : TileList->Custom)
                                {
                                        DynMat->SetScalarParameterValue(Param.ParameterName, Param.ScalarValue);
+                                       if (CPDIndex < 2)
+                                       {
+                                               MeshComp->SetCustomPrimitiveDataFloat(CPDIndex, Param.ScalarValue);
+                                               ++CPDIndex;
+                                       }
                                }
-                               MeshActor->GetStaticMeshComponent()->SetMaterial(0, DynMat);
+                               for (; CPDIndex < 2; ++CPDIndex)
+                               {
+                                       MeshComp->SetCustomPrimitiveDataFloat(CPDIndex, 0.f);
+                               }
+                               MeshComp->SetMaterial(0, DynMat);
+                       }
+                       else
+                       {
+                               MeshComp->SetCustomPrimitiveDataFloat(0, 0.f);
+                               MeshComp->SetCustomPrimitiveDataFloat(1, 0.f);
                        }
 
 			FTransform BrushTransform = FTransform(TileList->Rotation.Quaternion(), BrushLocation, FVector::OneVector);
@@ -585,17 +601,33 @@ void FGridMapEditorMode::UpdateAdjacentTiles(UWorld* World, const TArray<FAdjace
 		}
 
                // it has changed, so let's update it
-               CurrentActor->GetStaticMeshComponent()->SetStaticMesh(ExpectedStaticMesh);
+               UStaticMeshComponent* MeshComp = CurrentActor->GetStaticMeshComponent();
+               MeshComp->SetStaticMesh(ExpectedStaticMesh);
                {
-                       UMaterialInterface* BaseMaterial = CurrentActor->GetStaticMeshComponent()->GetMaterial(0);
+                       UMaterialInterface* BaseMaterial = MeshComp->GetMaterial(0);
                        if (BaseMaterial && TileList->Custom.Num() > 0)
                        {
                                UMaterialInstanceDynamic* DynMat = UMaterialInstanceDynamic::Create(BaseMaterial, CurrentActor);
+                               int32 CPDIndex = 0;
                                for (const FGridMapMaterialParameter& Param : TileList->Custom)
                                {
                                        DynMat->SetScalarParameterValue(Param.ParameterName, Param.ScalarValue);
+                                       if (CPDIndex < 2)
+                                       {
+                                               MeshComp->SetCustomPrimitiveDataFloat(CPDIndex, Param.ScalarValue);
+                                               ++CPDIndex;
+                                       }
                                }
-                               CurrentActor->GetStaticMeshComponent()->SetMaterial(0, DynMat);
+                               for (; CPDIndex < 2; ++CPDIndex)
+                               {
+                                       MeshComp->SetCustomPrimitiveDataFloat(CPDIndex, 0.f);
+                               }
+                               MeshComp->SetMaterial(0, DynMat);
+                       }
+                       else
+                       {
+                               MeshComp->SetCustomPrimitiveDataFloat(0, 0.f);
+                               MeshComp->SetCustomPrimitiveDataFloat(1, 0.f);
                        }
                }
                CurrentActor->SetActorRotation(TileList->Rotation);
