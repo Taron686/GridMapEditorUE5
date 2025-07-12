@@ -1,7 +1,7 @@
 #include "GridMapEditCommands.h"
 #include "GridMapEditor.h"
 #include "GridMapStyleSet.h"
-#include "EditorStyleSet.h"
+#include "Styling/AppStyle.h"
 
 #define LOCTEXT_NAMESPACE "GridMapEditor"
 
@@ -10,7 +10,7 @@ FGridMapEditCommands::FGridMapEditCommands()
 		"GridMapEditCommands",	// context name for fast lookup
 		NSLOCTEXT("GridMapEditor", "GridMapEditorMode", "Grid Map Edit Mode"), // localized text
 		NAME_None,	// parent
-               FEditorStyle::GetStyleSetName())
+               FAppStyle::GetAppStyleSetName())
 {
 }
 

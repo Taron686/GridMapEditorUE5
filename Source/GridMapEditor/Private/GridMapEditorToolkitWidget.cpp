@@ -1,7 +1,7 @@
 #include "GridMapEditorToolkitWidget.h"
 #include "Editor.h"
 #include "EditorModeManager.h"
-#include "EditorStyleSet.h"
+#include "Styling/AppStyle.h"
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 #include "GridMapEditCommands.h"
 #include "GridMapEditorMode.h"
@@ -47,7 +47,7 @@ void SGridMapEditorToolkitWidget::Construct(const FArguments& InArgs)
                .AutoHeight()
                [
                        SNew(SBorder)
-                       .BorderImage(FEditorStyle::GetBrush("ToolPanel.DarkGroupBorder"))
+                       .BorderImage(FAppStyle::GetBrush("ToolPanel.DarkGroupBorder"))
                        .Padding(FGridMapStyleSet::StandardPadding)
                        [
                                SNew(SVerticalBox)
@@ -63,7 +63,7 @@ void SGridMapEditorToolkitWidget::Construct(const FArguments& InArgs)
                                        [
                                                SNew(STextBlock)
                                                .Text(this, &SGridMapEditorToolkitWidget::GetActiveToolName)
-                                               .TextStyle(FEditorStyle::Get(), "FoliageEditMode.ActiveToolName.Text")
+                                               .TextStyle(FAppStyle::Get(), "FoliageEditMode.ActiveToolName.Text")
                                        ]
                                ]
 
