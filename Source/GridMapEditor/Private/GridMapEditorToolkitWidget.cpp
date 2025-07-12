@@ -7,7 +7,6 @@
 #include "GridMapEditorMode.h"
 #include "GridMapStyleSet.h"
 #include "SlateOptMacros.h"
-#include "ToolMenus.h"
 #include "TileSet.h"
 #include "Widgets/GridMapEditorSettingsWidget.h"
 #include "Widgets/Input/SCheckBox.h"
@@ -99,20 +98,31 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildToolBar()
 {
-       UToolMenus* ToolMenus = UToolMenus::Get();
-       const FName MenuName("GridMapEditor.Toolbar");
+       FToolBarBuilder Toolbar(GridMapEditorMode->UICommandList, FMultiBoxCustomization::None);
+       Toolbar.SetLabelVisibility(EVisibility::Collapsed);
+       Toolbar.SetStyle(&FAppStyle::Get(), "FoliageEditToolbar");
 
-       if (!ToolMenus->IsMenuRegistered(MenuName))
-       {
-               UToolMenu* Menu = ToolMenus->RegisterMenu(MenuName);
-               FToolMenuSection& Section = Menu->AddSection("GridMapSection");
-               Section.AddEntry(FToolMenuEntry::InitToolBarButton(FGridMapEditCommands::Get().SetPaintTiles));
-               Section.AddEntry(FToolMenuEntry::InitToolBarButton(FGridMapEditCommands::Get().SetSelectTiles));
-               Section.AddEntry(FToolMenuEntry::InitToolBarButton(FGridMapEditCommands::Get().SetTileSettings));
-       }
+       Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetPaintTiles);
+       Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetSelectTiles);
+       Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetTileSettings);
 
-       FToolMenuContext Context(GridMapEditorMode->UICommandList);
-       return ToolMenus->GenerateWidget(MenuName, Context);
+       return
+               SNew(SHorizontalBox)
+               + SHorizontalBox::Slot()
+               [
+                       SNew(SOverlay)
+                       + SOverlay::Slot()
+                       [
+                               SNew(SBorder)
+                               .HAlign(HAlign_Center)
+                               .Padding(0)
+                               .BorderImage(FAppStyle::GetBrush("NoBorder"))
+                               .IsEnabled(FSlateApplication::Get().GetNormalExecutionAttribute())
+                               [
+                                       Toolbar.MakeWidget()
+                               ]
+                       ]
+               ];
 }
 
 TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildPaintOptions()
