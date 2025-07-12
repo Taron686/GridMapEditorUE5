@@ -26,95 +26,81 @@ void SGridMapEditorToolkitWidget::Construct(const FArguments& InArgs)
 
 	const FText BlankText = FText::GetEmpty();
 
-	ChildSlot[
-		SNew(SVerticalBox)
-		// Error text goes in the first vertical slot
-		+ SVerticalBox::Slot()
-		.AutoHeight()
-		.Padding(0,0,0,5)
-		[
-			SAssignNew(ErrorText, SErrorText)
-		]
-		// Main content comes next
-		+ SVerticalBox::Slot()
-		.Padding(0)
-		[
-			// Container for left side "tabs" and right content
-			SNew(SVerticalBox)
-			.IsEnabled(this, &SGridMapEditorToolkitWidget::IsGridMapEditorEnabled)
-			+ SVerticalBox::Slot()
-			.AutoHeight()
-			[
-				SNew(SHorizontalBox)
-				// left side "tabs"
-				+ SHorizontalBox::Slot()
-				.AutoWidth()
-				.Padding(1.f, 5.f, 0.f, 5.f)
-				[
-					BuildToolBar()
-				]
-				// right side content
-				+ SHorizontalBox::Slot()
-				.Padding(0.f, 2.f, 2.f, 0.f)
-				[
-					SNew(SBorder)
-                                        .BorderImage(FAppStyle::GetBrush("ToolPanel.DarkGroupBorder"))
-					.Padding(FGridMapStyleSet::StandardPadding)
-					[
-						SNew(SVerticalBox)
+       ChildSlot[
+               SNew(SVerticalBox)
+               // Error text goes in the first vertical slot
+               + SVerticalBox::Slot()
+               .AutoHeight()
+               .Padding(0,0,0,5)
+               [
+                       SAssignNew(ErrorText, SErrorText)
+               ]
+               // Toolbar similar to landscape mode
+               + SVerticalBox::Slot()
+               .AutoHeight()
+               [
+                       BuildToolBar()
+               ]
+               // Main content comes next
+               + SVerticalBox::Slot()
+               .AutoHeight()
+               [
+                       SNew(SBorder)
+                       .BorderImage(FAppStyle::GetBrush("ToolPanel.DarkGroupBorder"))
+                       .Padding(FGridMapStyleSet::StandardPadding)
+                       [
+                               SNew(SVerticalBox)
 
-						// Active Tool Title
-						+ SVerticalBox::Slot()
-						.AutoHeight()
-						[
-							SNew(SHorizontalBox)
-							+ SHorizontalBox::Slot()
-							.Padding(FGridMapStyleSet::StandardLeftPadding)
-							.HAlign(HAlign_Left)
-							[
-								SNew(STextBlock)
-								.Text(this, &SGridMapEditorToolkitWidget::GetActiveToolName)
-                                                                .TextStyle(FAppStyle::Get(), "FoliageEditMode.ActiveToolName.Text")
-							]
-						]
-						
-						// Paint Options
-						+ SVerticalBox::Slot()
-						.AutoHeight()
-						[
-							BuildPaintOptions()
-						]
+                               // Active Tool Title
+                               + SVerticalBox::Slot()
+                               .AutoHeight()
+                               [
+                                       SNew(SHorizontalBox)
+                                       + SHorizontalBox::Slot()
+                                       .Padding(FGridMapStyleSet::StandardLeftPadding)
+                                       .HAlign(HAlign_Left)
+                                       [
+                                               SNew(STextBlock)
+                                               .Text(this, &SGridMapEditorToolkitWidget::GetActiveToolName)
+                                               .TextStyle(FAppStyle::Get(), "FoliageEditMode.ActiveToolName.Text")
+                                       ]
+                               ]
 
-						// Settings Options
-						+ SVerticalBox::Slot()
-						.AutoHeight()
-						[
-							SNew(SGridMapEditorSettingsWidget, &GridMapEditorMode->UISettings, GridMapEditorMode)
-						]
+                               // Paint Options
+                               + SVerticalBox::Slot()
+                               .AutoHeight()
+                               [
+                                       BuildPaintOptions()
+                               ]
 
-					]
-				]
-			]
+                               // Settings Options
+                               + SVerticalBox::Slot()
+                               .AutoHeight()
+                               [
+                                       SNew(SGridMapEditorSettingsWidget, &GridMapEditorMode->UISettings, GridMapEditorMode)
+                               ]
 
-			// Foliage Palette
-			+ SVerticalBox::Slot()
-			.FillHeight(1.f)
-			.VAlign(VAlign_Fill)
-			.Padding(0.f, 5.f, 0.f, 0.f)
-			[
-				SAssignNew(TileSetPalette, STileSetPalette)
-				.GridMapEditorMode(GridMapEditorMode)
-			]
-		]
-	];
+                       ]
+               ]
+
+               // Tile set palette below the options
+               + SVerticalBox::Slot()
+               .FillHeight(1.f)
+               .VAlign(VAlign_Fill)
+               .Padding(0.f, 5.f, 0.f, 0.f)
+               [
+                       SAssignNew(TileSetPalette, STileSetPalette)
+                       .GridMapEditorMode(GridMapEditorMode)
+               ]
+       ];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildToolBar()
 {
-	FVerticalToolBarBuilder Toolbar(GridMapEditorMode->UICommandList, FMultiBoxCustomization::None);
-	Toolbar.SetLabelVisibility(EVisibility::Collapsed);
-        Toolbar.SetStyle(&FAppStyle::Get(), "FoliageEditToolbar");
+       FToolBarBuilder Toolbar(GridMapEditorMode->UICommandList, FMultiBoxCustomization::None);
+       Toolbar.SetLabelVisibility(EVisibility::Collapsed);
+       Toolbar.SetStyle(&FAppStyle::Get(), "FoliageEditToolbar");
 	{
 		Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetPaintTiles);
 		Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetSelectTiles);
@@ -127,23 +113,7 @@ TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildToolBar()
 		*/
 	}
 
-	return
-		SNew(SHorizontalBox)
-		+ SHorizontalBox::Slot()
-		[
-			SNew(SOverlay)
-			+ SOverlay::Slot()
-			[
-				SNew(SBorder)
-				.HAlign(HAlign_Center)
-				.Padding(0)
-                                .BorderImage(FAppStyle::GetBrush("NoBorder"))
-				.IsEnabled(FSlateApplication::Get().GetNormalExecutionAttribute())
-				[
-					Toolbar.MakeWidget()
-				]
-			]
-		];
+       return Toolbar.MakeWidget();
 }
 
 TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildPaintOptions()
