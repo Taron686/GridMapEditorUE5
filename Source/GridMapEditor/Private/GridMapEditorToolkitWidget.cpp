@@ -7,6 +7,7 @@
 #include "GridMapEditorMode.h"
 #include "GridMapStyleSet.h"
 #include "SlateOptMacros.h"
+#include "ToolMenus.h"
 #include "TileSet.h"
 #include "Widgets/GridMapEditorSettingsWidget.h"
 #include "Widgets/Input/SCheckBox.h"
@@ -98,22 +99,20 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildToolBar()
 {
-       FToolBarBuilder Toolbar(GridMapEditorMode->UICommandList, FMultiBoxCustomization::None);
-       Toolbar.SetLabelVisibility(EVisibility::Collapsed);
-       Toolbar.SetStyle(&FAppStyle::Get(), "FoliageEditToolbar");
-	{
-		Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetPaintTiles);
-		Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetSelectTiles);
-		Toolbar.AddToolBarButton(FGridMapEditCommands::Get().SetTileSettings);
-		
-		/*
-		Toolbar.AddToolBarButton(FFoliageEditCommands::Get().SetReapplySettings);
-		Toolbar.AddToolBarButton(FFoliageEditCommands::Get().SetLassoSelect);
-		Toolbar.AddToolBarButton(FFoliageEditCommands::Get().SetPaintBucket);
-		*/
-	}
+       UToolMenus* ToolMenus = UToolMenus::Get();
+       const FName MenuName("GridMapEditor.Toolbar");
 
-       return Toolbar.MakeWidget();
+       if (!ToolMenus->IsMenuRegistered(MenuName))
+       {
+               UToolMenu* Menu = ToolMenus->RegisterMenu(MenuName);
+               FToolMenuSection& Section = Menu->AddSection("GridMapSection");
+               Section.AddEntry(FToolMenuEntry::InitToolBarButton(FGridMapEditCommands::Get().SetPaintTiles));
+               Section.AddEntry(FToolMenuEntry::InitToolBarButton(FGridMapEditCommands::Get().SetSelectTiles));
+               Section.AddEntry(FToolMenuEntry::InitToolBarButton(FGridMapEditCommands::Get().SetTileSettings));
+       }
+
+       FToolMenuContext Context(GridMapEditorMode->UICommandList);
+       return ToolMenus->GenerateWidget(MenuName, Context);
 }
 
 TSharedRef<SWidget> SGridMapEditorToolkitWidget::BuildPaintOptions()
