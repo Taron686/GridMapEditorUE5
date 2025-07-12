@@ -11,11 +11,23 @@
 USTRUCT()
 struct GRIDMAP_API FGridMapTileBitset
 {
-	GENERATED_BODY()
+        GENERATED_BODY()
 
 public:
        UPROPERTY(EditAnywhere, Category="Tile")
        uint32 Bitset = 0;
+};
+
+USTRUCT()
+struct GRIDMAP_API FGridMapMaterialParameter
+{
+       GENERATED_BODY()
+
+       UPROPERTY(EditAnywhere, Category="Tile")
+       FName ParameterName;
+
+       UPROPERTY(EditAnywhere, Category="Tile")
+       float ScalarValue = 0.0f;
 };
 
 USTRUCT()
@@ -33,7 +45,10 @@ public:
        UPROPERTY(EditAnywhere, Category="Tile", meta = (AllowAbstract))
        TArray<TSoftObjectPtr<class UStaticMesh>> Tiles;
 
-	TSoftObjectPtr<class UStaticMesh> GetRandomTile() const;
+       UPROPERTY(EditAnywhere, Category="Tile")
+       TArray<FGridMapMaterialParameter> Custom;
+
+       TSoftObjectPtr<class UStaticMesh> GetRandomTile() const;
 };
 
 /**
