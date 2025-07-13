@@ -29,5 +29,5 @@ public:
 	virtual void RegisterCommands() override;
 
 private:
-	void MakeUICommand(TSharedPtr<FUICommandInfo>& OutCommand, const TCHAR* CommandName, const FText&  FriendlyName, const FText& InDescription, const EUserInterfaceActionType CommandType, const FInputChord& InDefaultChord = FInputChord());
+       // legacy helper removed
 };

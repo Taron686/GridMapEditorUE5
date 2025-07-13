@@ -65,7 +65,7 @@ public:
 									[
 										SNew(SImage)
 										.Visibility(this, &SGridTilePreviewWidget::GetVisibility_Tile, StructPropertyHandle, bit)
-                                                                               .Image(FAppStyle::Get().GetBrush("UMGEditor.AnchoredWidget"))
+                                                                       .Image(FAppStyle::Get().GetBrush("UMGEditor.AnchoredWidget"))
 									]
 								]
 							]

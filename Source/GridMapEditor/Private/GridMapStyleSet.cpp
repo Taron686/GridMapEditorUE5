@@ -30,3 +30,4 @@ FGridMapStyleSet::FGridMapStyleSet(const FString& PluginContentDir)
 	Set("GridMapEditCommands.SelectTiles", new FSlateImageBrush(ContentGridMapDir + TEXT("Icons/UIIcons/icon_GridMap_Select_40x.png"), Icon20x20));
 	Set("GridMapEditCommands.TileSettings", new FSlateImageBrush(ContentGridMapDir + TEXT("Icons/UIIcons/icon_GridMap_Settings_40x.png"), Icon20x20));
 }
+

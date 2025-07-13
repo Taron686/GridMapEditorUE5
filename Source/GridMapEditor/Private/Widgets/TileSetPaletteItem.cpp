@@ -22,13 +22,13 @@ void STileSetItemTile::Construct(const FArguments& InArgs, TSharedRef<STableView
 	FAssetThumbnailConfig ThumbnailConfig;
 	STableRow<UGridMapTileSet*>::Construct(
 		STableRow<UGridMapTileSet*>::FArguments()
-                .Style(FAppStyle::Get(), "ContentBrowser.AssetListView.TableRow")
+               .Style(FAppStyle::Get(), "ContentBrowser.AssetListView.TableRow")
 		.Padding(1.f)
 		.Content()
 		[
 			SNew(SBorder)
 			.Padding(4.f)
-                        .BorderImage(FAppStyle::GetBrush("ContentBrowser.ThumbnailShadow"))
+                       .BorderImage(FAppStyle::GetBrush("ContentBrowser.ThumbnailShadow"))
 			.ForegroundColor(FLinearColor::White)
 			//.ColorAndOpacity(this, &SFoliagePaletteItemTile::GetTileColorAndOpacity)
 			[
