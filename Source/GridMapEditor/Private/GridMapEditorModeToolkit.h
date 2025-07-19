@@ -10,17 +10,22 @@ class FGridMapEditorModeToolkit : public FModeToolkit
 {
 public:
 
-	FGridMapEditorModeToolkit();
-	
-	/** FModeToolkit interface */
-	virtual void Init(const TSharedPtr<IToolkitHost>& InitToolkitHost) override;
+        FGridMapEditorModeToolkit();
+        virtual ~FGridMapEditorModeToolkit() {}
 
-	/** IToolkit interface */
-	virtual FName GetToolkitFName() const override;
-	virtual FText GetBaseToolkitName() const override;
-	virtual class FEdMode* GetEditorMode() const override;
-	virtual TSharedPtr<class SWidget> GetInlineContent() const override;
+        /** FModeToolkit interface */
+        virtual void Init(const TSharedPtr<IToolkitHost>& InitToolkitHost) override;
+        virtual TSharedPtr<SWidget> BuildToolBar() override;
+
+        /** IToolkit interface */
+        virtual FName GetToolkitFName() const override;
+        virtual FText GetBaseToolkitName() const override;
+        virtual class FEdMode* GetEditorMode() const override;
+        virtual TSharedPtr<class SWidget> GetInlineContent() const override;
 
 private:
-	TSharedPtr<class SGridMapEditorToolkitWidget> ToolkitWidget;
+        TSharedPtr<class SGridMapEditorToolkitWidget> ToolkitWidget;
+        TSharedPtr<class FExtender> ToolBarExtender;
+
+        void ExtendLevelEditorToolBar(struct FToolBarBuilder& ToolbarBuilder);
 };
